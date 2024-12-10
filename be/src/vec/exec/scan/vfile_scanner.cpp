@@ -1026,6 +1026,10 @@ Status VFileScanner::_generate_fill_columns() {
                     return Status::InternalError("Unknown source slot descriptor, slot_id={}",
                                                  slot_desc->id());
                 }
+                if (range.columns_from_path.size() <= it->second) {
+                    return Status::InternalError("slot not in file and no in columns_from_path, slot_id={}",
+                                                 slot_desc->id());
+                }
                 const std::string& column_from_path = range.columns_from_path[it->second];
                 const char* data = column_from_path.c_str();
                 size_t size = column_from_path.size();
